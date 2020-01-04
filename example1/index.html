@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Example 1</title>
+</head>
+<body>
+  <p>If all goes well, you'll see 1337 printed in your dev console!</p>
+  <script>
+    WebAssembly.instantiateStreaming(fetch('http://localhost:8888/example1/main.wasm')).then(mod => {
+      let x = mod.instance.exports.hello_world()
+      console.log(x)
+    })
+  </script>
+</bod>
+</html>

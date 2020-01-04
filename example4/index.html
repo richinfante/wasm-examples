@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Example 1</title>
+</head>
+<body>
+  <p>If all goes well, you'll see "Hello, World!" printed below:</p>
+  <pre id="out"></pre>
+  <script>
+    function printUTF8String(offset, length) {
+      var bytes = new Uint8Array(memory.buffer, offset, length);
+      var string = new TextDecoder('utf8').decode(bytes);
+      console.log(string);
+      out.innerText += '[wasm log]: ' + string + '\n'
+    }
+
+    var memory = new WebAssembly.Memory({initial:1});
+
+    var importObject = { console: { log: printUTF8String }, js: { mem: memory } };
+
+    WebAssembly.instantiateStreaming(fetch('http://localhost:8888/example4/main.wasm'), importObject).then(mod => {
+      mod.instance.exports.main()
+    })
+  </script>
+</bod>
+</html>
